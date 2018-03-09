@@ -1,0 +1,28 @@
+{
+	"name": "booking-scheduler",
+	"version": "1.0.0",
+	"license": "MIT",
+	"main": "index.js",
+	"scripts": {
+		"dev": "live-server dist | webpack --mode development",
+		"build": "webpack --mode production"
+	},
+	"dependencies": {
+		"babel-loader": "^7.1.4",
+		"babel-preset-2017": "^0.0.0",
+		"babel-preset-es2017": "^6.24.1",
+		"babel-preset-react": "^6.24.1",
+		"css-loader": "^0.28.10",
+		"moment": "^2.21.0",
+		"node-sass": "^4.7.2",
+		"react": "^16.2.0",
+		"react-big-calendar": "^0.18.0",
+		"react-dom": "^16.2.0",
+		"sass-loader": "^6.0.7"
+	},
+	"devDependencies": {
+		"style-loader": "^0.20.3",
+		"webpack": "^4.1.1",
+		"webpack-cli": "^2.0.10"
+	}
+}
