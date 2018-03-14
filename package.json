@@ -8,16 +8,20 @@
 		"build": "webpack --mode production"
 	},
 	"dependencies": {
+		"axios": "^0.18.0",
 		"babel-loader": "^7.1.4",
 		"babel-preset-2017": "^0.0.0",
 		"babel-preset-es2017": "^6.24.1",
 		"babel-preset-react": "^6.24.1",
+		"babel-preset-stage-1": "^6.24.1",
 		"css-loader": "^0.28.10",
 		"moment": "^2.21.0",
 		"node-sass": "^4.7.2",
 		"react": "^16.2.0",
-		"react-big-calendar": "^0.18.0",
+		"react-datepicker": "^1.2.2",
 		"react-dom": "^16.2.0",
+		"react-fontawesome": "^1.6.1",
+		"react-week-calendar": "^0.1.1",
 		"sass-loader": "^6.0.7"
 	},
 	"devDependencies": {

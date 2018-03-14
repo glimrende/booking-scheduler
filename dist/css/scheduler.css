@@ -1,0 +1,25 @@
+.event {
+  font-size: .8rem;
+  text-align:center;
+  border:1px solid #333;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+}
+
+.datepicker-contaisner {
+  position: absolute;
+  z-index: 1000;
+  right: 1rem;
+  top: 5rem;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
