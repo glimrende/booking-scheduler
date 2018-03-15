@@ -21,6 +21,7 @@
 		"react-datepicker": "^1.2.2",
 		"react-dom": "^16.2.0",
 		"react-fontawesome": "^1.6.1",
+		"react-select": "^1.2.1",
 		"react-week-calendar": "^0.1.1",
 		"sass-loader": "^6.0.7"
 	},

@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /home/chroz/.yarn/bin/yarn.js start
+  /usr/local/bin/node /home/chroz/.yarn/bin/yarn.js bundle
 
 PATH: 
   /home/chroz/.yarn/bin:/home/chroz/.config/yarn/global/node_modules/.bin:/home/chroz/.sdkman/candidates/gradle/current/bin:/home/chroz/.local/share/umake/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin:/opt/mssql-tools/bin
@@ -34,6 +34,7 @@ npm manifest:
   		"moment": "^2.21.0",
   		"node-sass": "^4.7.2",
   		"react": "^16.2.0",
+  		"react-datepicker": "^1.2.2",
   		"react-dom": "^16.2.0",
   		"react-fontawesome": "^1.6.1",
   		"react-week-calendar": "^0.1.1",
@@ -1326,6 +1327,10 @@ Lockfile:
       define-property "^0.2.5"
       isobject "^3.0.0"
       static-extend "^0.1.1"
+  
+  classnames@^2.2.5:
+    version "2.2.5"
+    resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
   
   cli-cursor@^1.0.1, cli-cursor@^1.0.2:
     version "1.0.2"
@@ -4162,6 +4167,10 @@ Lockfile:
     dependencies:
       find-up "^2.1.0"
   
+  popper.js@^1.12.9:
+    version "1.14.1"
+    resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.1.tgz#b8815e5cda6f62fc2042e47618649f75866e6753"
+  
   posix-character-classes@^0.1.0:
     version "0.1.1"
     resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
@@ -4575,6 +4584,15 @@ Lockfile:
       minimist "^1.2.0"
       strip-json-comments "~2.0.1"
   
+  react-datepicker@^1.2.2:
+    version "1.2.2"
+    resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-1.2.2.tgz#7fb8d7e0f9de6a77a376291a4ccd45fdfe3ce3f5"
+    dependencies:
+      classnames "^2.2.5"
+      prop-types "^15.6.0"
+      react-onclickoutside "^6.7.1"
+      react-popper "^0.8.2"
+  
   react-dom@^16.2.0:
     version "16.2.0"
     resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.2.0.tgz#69003178601c0ca19b709b33a83369fe6124c044"
@@ -4589,6 +4607,17 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-fontawesome/-/react-fontawesome-1.6.1.tgz#eddce17e7dc731aa09fd4a186688a61793a16c5c"
     dependencies:
       prop-types "^15.5.6"
+  
+  react-onclickoutside@^6.7.1:
+    version "6.7.1"
+    resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.7.1.tgz#6a5b5b8b4eae6b776259712c89c8a2b36b17be93"
+  
+  react-popper@^0.8.2:
+    version "0.8.2"
+    resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-0.8.2.tgz#092095ff13933211d3856d9f325511ec3a42f12c"
+    dependencies:
+      popper.js "^1.12.9"
+      prop-types "^15.6.0"
   
   react-week-calendar@^0.1.1:
     version "0.1.1"
@@ -6062,7 +6091,7 @@ Lockfile:
       yeoman-environment "^1.1.0"
 
 Trace: 
-  Error: Command "start" not found.
+  Error: Command "bundle" not found.
       at new MessageError (/home/chroz/.yarn/lib/cli.js:186:110)
       at /home/chroz/.yarn/lib/cli.js:87307:17
       at Generator.next (<anonymous>)

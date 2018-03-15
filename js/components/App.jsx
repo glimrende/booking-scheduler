@@ -7,7 +7,9 @@ import Datepicker from 'react-datepicker';
 import FontAwesome from 'react-fontawesome';
 import WeekCalendar from 'react-week-calendar';
 import { Loader } from './Loader.jsx';
+import Select from 'react-select';
 
+import 'react-select/dist/react-select.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-week-calendar/dist/style.css';
 
@@ -16,8 +18,8 @@ import Modal from './Modal.jsx';
 
 moment.locale('nb');
 
-const baseurl = 'http://localhost:8100/admin/bookableTimeIntervals/';
-
+const host = (location.host !== 'localhost:8080') ? '' : 'http://localhost:8100';
+const baseurl = host + '/admin/';
 
 
 
@@ -28,34 +30,59 @@ class App extends React.Component {
     this.state = {
       intervals : [],
       loading: true,
+      loadingProviders: true,
       showcalendar: false,
-      date: moment()
+      date: moment(),
+      serviceProvider: null,
+      serviceProviders: []
     }
-    this.loadIntervals();
+  }
+
+  componentDidMount() {
+    this.loadProviders();
+  }
+
+  loadProviders = async() => {
+    this.setState({loadingProviders: true});
+    let res = await axios.get(baseurl  + 'bookableTimeIntervals/getServiceProviders' , {withCredentials: true});
+    let serviceProviders = [];
+    for(var i=0; i<res.data.length; i++) {
+      let provider = res.data[i];
+      serviceProviders.push ({value : provider.id, label: provider.fullname});
+    }
+    this.setState({
+        serviceProvider: serviceProviders[0],
+        serviceProviders,
+        loadingProviders: false
+    },
+    () => {
+      this.loadIntervals();
+    });
+
   }
 
   loadIntervals = async () => { 
     this.setState({intervals: [], loading: true});
-    axios.get(baseurl + 1 + '/' + this.state.date.format("YYYY-MM-DD") , {withCredentials: true}).then((res) => {
+    let res = await axios.get(baseurl + 'bookableTimeIntervals/' + this.state.serviceProvider.value + '/' + this.state.date.format("YYYY-MM-DD") , {withCredentials: true});
 
-      let intervals = [];
-      for(var i=0; i<res.data.length; i++) {
-        let interval = res.data[i];
-        intervals.push({
-          value: ''+interval.id,
-          start: moment(interval.start),
-          end: moment(interval.end)
-        });
-      }
-      this.setState({intervals, loading: false});
-    })
+    let intervals = [];
+    for(var i=0; i<res.data.length; i++) {
+      let interval = res.data[i];
+      intervals.push({
+        value: ''+interval.id,
+        start: moment(interval.start),
+        end: moment(interval.end)
+      });
+    }
+    this.setState({intervals, loading: false});
+
   }
 
 
   addInterval = (intervals) => {
 
     let interval = intervals[0];
-    axios.post(baseurl + 1, {interval}, {withCredentials: true}).then((res) => {
+    axios.post(baseurl + 'bookableTimeIntervals/' + this.state.serviceProvider.value + '/' , {interval}, {withCredentials: true}).then((res) => {
       intervals = this.state.intervals;
       interval.value = '' + res.data.id;
       intervals.push(interval);
@@ -77,7 +104,7 @@ class App extends React.Component {
   deleteInterval = (interval) => {
     let id = interval.value;
 
-    axios.delete(baseurl + 1 + '/' + id + '/delete', {withCredentials: true}).then((res) => {
+    axios.delete(baseurl + 'bookableTimeIntervals/' + this.state.serviceProvider.value + '/' + id + '/delete', {withCredentials: true}).then((res) => {
 
       let id = res.data.id;
       let intervals = this.state.intervals;
@@ -125,9 +152,36 @@ class App extends React.Component {
     this.setState({showcalendar: !this.state.showcalendar})
   }
 
+  selectProvider = (e) => {
+    this.setState({
+      serviceProvider: e,
+    }, () => {
+      this.loadIntervals();
+    });
+  }
+
   render() {
+
+
+    if (this.state.loadingProviders) return <Loader/>
+
     let disabled = this.state.loading ? 'disabled' : null;
     return <div className='w-100'>
+
+      <div className='d-flex w-25'>
+      <Select
+        className='w-100'
+         name="form-field-name"
+         value={this.state.serviceProvider.id}
+         onChange={this.selectProvider}
+         clearable={false}
+         options={this.state.serviceProviders}
+       />
+      </div>
+      <div className='d-flex justify-content-center'>
+        <h1>{this.state.serviceProvider ? this.state.serviceProvider.label : null}</h1>
+      </div>
+
       <div className='d-flex justify-content-between align-items-center p-4'>
         <a className={`btn btn-info ${disabled}`}  onClick={() => { disabled ? null : this.browseWeek(-1) }} href='#'>Forrige</a>
         Uke {this.state.date.week()}

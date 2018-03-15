@@ -23,3 +23,8 @@ html, body {
 .flex-row {
   flex-direction: row;
 }
+
+.weekCalendar__content {
+  max-height: 100%;
+
+}
