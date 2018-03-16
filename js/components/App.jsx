@@ -1,5 +1,6 @@
 import React from 'react';
-import moment from 'moment';
+
+import moment from 'moment-timezone';
 import axios from 'axios';
 
 import Datepicker from 'react-datepicker';
@@ -16,7 +17,7 @@ import 'react-week-calendar/dist/style.css';
 import Event from './Event.jsx';
 import Modal from './Modal.jsx';
 
-moment.locale('nb');
+moment.tz.setDefault("UTC");
 
 const host = (location.host !== 'localhost:8080') ? '' : 'http://localhost:8100';
 const baseurl = host + '/admin/';
@@ -28,7 +29,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      intervals : [],
+      intervals : new Map(),
       loading: true,
       loadingProviders: true,
       showcalendar: false,
@@ -62,76 +63,44 @@ class App extends React.Component {
   }
 
   loadIntervals = async () => { 
-    this.setState({intervals: [], loading: true});
+    this.setState({loading: true});
     let res = await axios.get(baseurl + 'bookableTimeIntervals/' + this.state.serviceProvider.value + '/' + this.state.date.format("YYYY-MM-DD") , {withCredentials: true});
-
-    let intervals = [];
-    for(var i=0; i<res.data.length; i++) {
-      let interval = res.data[i];
-      intervals.push({
-        value: ''+interval.id,
-        start: moment(interval.start),
-        end: moment(interval.end)
-      });
-    }
-    this.setState({intervals, loading: false});
-
+    this.setState({intervals: this.formatIntervals(res.data), loading: false});
   }
 
+  formatIntervals = (intervals) => {
+    return new Map(intervals.map((i) => [i.id,   {
+      value: ''+i.id,
+      start: moment(i.start),
+      end: moment(i.end)
+    }]));
+  }
 
-  addInterval = (intervals) => {
-
+  addInterval = async (intervals) => {
     let interval = intervals[0];
-    axios.post(baseurl + 'bookableTimeIntervals/' + this.state.serviceProvider.value + '/' , {interval}, {withCredentials: true}).then((res) => {
-      intervals = this.state.intervals;
-      interval.value = '' + res.data.id;
-      intervals.push(interval);
-      this.setState({intervals});
-    });
+    let res = await axios.post(baseurl + 'bookableTimeIntervals/' + this.state.serviceProvider.value , {interval}, {withCredentials: true});
+    this.setState({intervals : this.formatIntervals(res.data)});
   }
 
 
-  findIntervalIndex = (id) =>  {
-    let intervals = this.state.intervals;
-    for (let i=0; i<intervals.length; i++) {
-      let interval = intervals[i];
-      if (interval.value === id) {
-        return interval;
-      }
-    }
-  }
-
-  deleteInterval = (interval) => {
+  deleteInterval = async (interval) => {
     let id = interval.value;
-
-    axios.delete(baseurl + 'bookableTimeIntervals/' + this.state.serviceProvider.value + '/' + id + '/delete', {withCredentials: true}).then((res) => {
-
-      let id = res.data.id;
-      let intervals = this.state.intervals;
-      for (let i=0; i<intervals.length; i++) {
-        let interval = intervals[i];
-          if(interval.value == id) {
-          intervals.splice(i,1);
-          break;
-        }
-      }
-      this.setState({intervals});
-    });
+    let intervals = this.state.intervals;
+    intervals.delete(+id);
+    this.setState({intervals});
+    let res = await axios.delete(baseurl + 'bookableTimeIntervals/' + this.state.serviceProvider.value + '/' + id + '/delete', {withCredentials: true});
   }
 
-  updateInterval = (interval) => {
+  updateInterval = async (interval) => {
 
-    let index = this.findIntervalIndex(interval.value);
     let intervals = this.state.intervals;
-    intervals[index] = interval;
-    this.setState({
-      intervals
-    })
+    intervals[interval.value] = interval;
+    this.setState({intervals});
 
-    return;
-    axios.delete(baseurl + 1 + '/' + id, {interval}, {withCredentials: true}).then((res) => {
-      console.log(res);
-    });
+    interval.id = interval.value;
+    let res = await axios.post(baseurl + 'bookableTimeIntervals/' + this.state.serviceProvider.value , {interval}, {withCredentials: true});
+
+    this.setState({intervals : this.formatIntervals(res.data)});
   }
 
   browseWeek = (num=1) => {
@@ -162,6 +131,7 @@ class App extends React.Component {
 
   render() {
 
+    const intervals = Array.from(this.state.intervals, x => x[1]);
 
     if (this.state.loadingProviders) return <Loader/>
 
@@ -202,7 +172,7 @@ class App extends React.Component {
       :
         <WeekCalendar
           firstDay={moment().day(1)}
-          selectedIntervals={this.state.intervals}
+          selectedIntervals={intervals}
           eventComponent={Event}
           modalComponent={Modal}
           onIntervalSelect={this.addInterval}

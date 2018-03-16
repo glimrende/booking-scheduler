@@ -16,6 +16,7 @@
 		"babel-preset-stage-1": "^6.24.1",
 		"css-loader": "^0.28.10",
 		"moment": "^2.21.0",
+		"moment-timezone": "^0.5.14",
 		"node-sass": "^4.7.2",
 		"react": "^16.2.0",
 		"react-datepicker": "^1.2.2",

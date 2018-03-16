@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /home/chroz/.yarn/bin/yarn.js bundle
+  /usr/local/bin/node /home/chroz/.yarn/bin/yarn.js start
 
 PATH: 
   /home/chroz/.yarn/bin:/home/chroz/.config/yarn/global/node_modules/.bin:/home/chroz/.sdkman/candidates/gradle/current/bin:/home/chroz/.local/share/umake/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin:/opt/mssql-tools/bin
@@ -37,6 +37,7 @@ npm manifest:
   		"react-datepicker": "^1.2.2",
   		"react-dom": "^16.2.0",
   		"react-fontawesome": "^1.6.1",
+  		"react-select": "^1.2.1",
   		"react-week-calendar": "^0.1.1",
   		"sass-loader": "^6.0.7"
   	},
@@ -1328,7 +1329,7 @@ Lockfile:
       isobject "^3.0.0"
       static-extend "^0.1.1"
   
-  classnames@^2.2.5:
+  classnames@^2.2.4, classnames@^2.2.5:
     version "2.2.5"
     resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
   
@@ -4608,6 +4609,12 @@ Lockfile:
     dependencies:
       prop-types "^15.5.6"
   
+  react-input-autosize@^2.1.2:
+    version "2.2.1"
+    resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-2.2.1.tgz#ec428fa15b1592994fb5f9aa15bb1eb6baf420f8"
+    dependencies:
+      prop-types "^15.5.8"
+  
   react-onclickoutside@^6.7.1:
     version "6.7.1"
     resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.7.1.tgz#6a5b5b8b4eae6b776259712c89c8a2b36b17be93"
@@ -4618,6 +4625,14 @@ Lockfile:
     dependencies:
       popper.js "^1.12.9"
       prop-types "^15.6.0"
+  
+  react-select@^1.2.1:
+    version "1.2.1"
+    resolved "https://registry.yarnpkg.com/react-select/-/react-select-1.2.1.tgz#a2fe58a569eb14dcaa6543816260b97e538120d1"
+    dependencies:
+      classnames "^2.2.4"
+      prop-types "^15.5.8"
+      react-input-autosize "^2.1.2"
   
   react-week-calendar@^0.1.1:
     version "0.1.1"
@@ -6091,7 +6106,7 @@ Lockfile:
       yeoman-environment "^1.1.0"
 
 Trace: 
-  Error: Command "bundle" not found.
+  Error: Command "start" not found.
       at new MessageError (/home/chroz/.yarn/lib/cli.js:186:110)
       at /home/chroz/.yarn/lib/cli.js:87307:17
       at Generator.next (<anonymous>)
